@@ -2,17 +2,27 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./Home";
+import { ViewAllDogs } from "./components/ViewAllDogs";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />}>
-        <Route index element={<Home />} />
-      </Route>
+      {/* <Route path="/" element={<App />}> */}
+        {/* <Route index element={<Home />} /> */}
+    <Route 
+      path="/" 
+      element={
+        <>   
+          <App/>          
+        </>
+      }
+    >      
+      <Route index element={<ViewAllDogs/>}/>      
+    </Route>
     </Routes>
   </BrowserRouter>,
 );
