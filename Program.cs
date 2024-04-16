@@ -91,5 +91,19 @@ app.MapGet("/api/getDogDetails/{id}",(int id)=>{
     return DogDetails;
 });
 
+//Add new Dog
+app.MapPost("/api/addNewDog",(Dog newDog)=>
+{
+    if(string.IsNullOrEmpty(newDog.Name))
+    {
+        return Results.BadRequest();
+    }
+    newDog.Id=dogs.Max(d=>d.Id)+1;
+    dogs.Add(newDog);
+
+    return Results.NoContent();
+
+});
+
 
 app.Run();
