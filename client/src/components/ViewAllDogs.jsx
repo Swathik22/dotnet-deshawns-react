@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react"
 import { getAllDogs } from "../services/DogService"
+import { Link } from "react-router-dom"
 
 export const ViewAllDogs=()=>{
     const[allDogsList,setAllDogsList]=useState([])
@@ -18,7 +19,7 @@ export const ViewAllDogs=()=>{
             allDogsList.map(dog=>{                   
                 return (
                    <div>
-                    <div>{dog.name}</div>
+                    <div><Link to={`/${dog.id}`}>{dog.name}</Link></div>
                   
                    </div>
                       )             

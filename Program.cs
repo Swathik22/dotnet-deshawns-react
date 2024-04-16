@@ -70,5 +70,26 @@ app.MapGet("/api/getAllDogs",()=>
     return dogList;
 });
 
+//Get dog details by Id
+app.MapGet("/api/getDogDetails/{id}",(int id)=>{
+    Dog dog=dogs.FirstOrDefault(d=>d.Id==id);
+    Walker walker= walkers.FirstOrDefault(w=>w.Id==dog.WalkerId);
+    
+    DogDTO DogDetails= new DogDTO
+    {
+        Id=dog.Id,
+        Name=dog.Name,
+        WalkerId=dog.WalkerId,
+        Walker=new WalkerDTO
+        {
+            Id=walker.Id,
+            Name=walker.Name,
+            Email=walker.Email
+        }
+    };
+
+    return DogDetails;
+});
+
 
 app.Run();
