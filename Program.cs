@@ -4,15 +4,15 @@ using DOTNET_DESHAWNS_REACT.Models.DTOs;
 List<Dog> dogs = new List<Dog>
 {
     new Dog { Id = 1, Name = "Max", WalkerId = 1, CityId = 1 },
-    new Dog { Id = 2, Name = "Bella", WalkerId = 2, CityId = 2 },
-    new Dog { Id = 3, Name = "Charlie", WalkerId = 3, CityId = 1 },
-    new Dog { Id = 4, Name = "Lucy", WalkerId = 1, CityId = 3 },
-    new Dog { Id = 5, Name = "Cooper", WalkerId = 2, CityId = 2 },
-    new Dog { Id = 6, Name = "Daisy", WalkerId = 3, CityId = 1 },
-    new Dog { Id = 7, Name = "Bailey", WalkerId = 1, CityId = 2 },
-    new Dog { Id = 8, Name = "Maggie", WalkerId = 2, CityId = 3 },
-    new Dog { Id = 9, Name = "Maximus", WalkerId = 3, CityId = 1 },
-    new Dog { Id = 10, Name = "Sadie", WalkerId = 1, CityId = 2 }
+    new Dog { Id = 2, Name = "Bella", WalkerId = 2, CityId = 1 },
+    new Dog { Id = 3, Name = "Charlie", WalkerId = 3, CityId = 2 },
+    new Dog { Id = 4, Name = "Lucy", WalkerId = 4, CityId = 2 },
+    new Dog { Id = 5, Name = "Cooper", WalkerId = 5, CityId = 3 },
+    new Dog { Id = 6, Name = "Daisy", WalkerId = 1, CityId = 3 },
+    new Dog { Id = 7, Name = "Bailey", WalkerId = 2, CityId = 4 },
+    new Dog { Id = 8, Name = "Maggie", WalkerId = 3, CityId = 4 },
+    new Dog { Id = 9, Name = "Maximus", WalkerId = 4, CityId = 5 },
+    new Dog { Id = 10, Name = "Sadie", WalkerId = 5, CityId = 5 }
 };
 
 List<City> cities = new List<City>
@@ -33,6 +33,20 @@ List<Walker> walkers = new List<Walker>
     new Walker { Id = 5, Name = "Daniel" }
 };
 
+
+List<WalkerCity> walkerCities = new List<WalkerCity>
+{
+    new WalkerCity { Id = 1, WalkerId = 1, CityId = 1 },
+    new WalkerCity { Id = 2, WalkerId = 2, CityId = 1 },
+    new WalkerCity { Id = 3, WalkerId = 3, CityId = 2 },
+    new WalkerCity { Id = 4, WalkerId = 4, CityId = 2 },
+    new WalkerCity { Id = 5, WalkerId = 5, CityId = 3 },
+    new WalkerCity { Id = 6, WalkerId = 1, CityId = 3 },
+    new WalkerCity { Id = 7, WalkerId = 2, CityId = 4 },
+    new WalkerCity { Id = 8, WalkerId = 3, CityId = 4 },
+    new WalkerCity { Id = 9, WalkerId = 4, CityId = 5 },
+    new WalkerCity { Id = 10, WalkerId = 5, CityId = 5 }
+};
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -103,6 +117,40 @@ app.MapPost("/api/addNewDog",(Dog newDog)=>
 
     return Results.NoContent();
 
+});
+
+//Get all walkers
+app.MapGet("/api/getAllWalkers",()=>{
+    List<WalkerDTO> walkerDTOs=walkers.Select(w=>new WalkerDTO
+    {
+        Id=w.Id,
+        Name=w.Name,
+        Email=w.Email
+    }).ToList();
+
+    return walkerDTOs;
+});
+
+//Get all Cities
+app.MapGet("/api/getAllCities",()=>{
+    List<CityDTO> cityDTOs=cities.Select(c=>new CityDTO
+    {
+        Id=c.Id,
+        Name=c.Name
+    }).ToList();
+
+    return cityDTOs;
+});
+
+//Get all Walkers by CityId
+app.MapGet("/api/getWalkersByCityId/{id}",(int id)=>{
+    List<WalkerDTO> walkerDTOs=walkerCities.Where(wc=>wc.CityId==id).Select(wc=>new WalkerDTO{
+        Id=wc.WalkerId,       
+        Name=walkers.FirstOrDefault(w=>w.Id==wc.WalkerId).Name,
+        Email=walkers.FirstOrDefault(w=>w.Id==wc.WalkerId).Email       
+        }).ToList();
+
+    return walkerDTOs;
 });
 
 
