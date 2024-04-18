@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getAllWalkers, getWalkersByCityId } from "../services/WalkerService"
 import { getAllCities } from "../services/CityService"
+import { Link } from "react-router-dom"
 
 export const ViewAllWalkers=()=>{
     const[allWalkers,setAllWalkers]=useState([])
@@ -49,7 +50,12 @@ export const ViewAllWalkers=()=>{
         <div>
             {
             filterWalkers.map((walker)=>{
-                return (<div key={walker.id}>{walker.name}</div>)
+                return (
+                <div key={walker.id}>
+                    <div>{walker.name}</div>
+                    <div><Link to={`/walkers/${walker.id}`}>Assign Dog</Link></div>    
+                </div>
+                )
             })
         }
         </div>

@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using DOTNET_DESHAWNS_REACT.Models;
 using DOTNET_DESHAWNS_REACT.Models.DTOs;
 
@@ -144,13 +145,63 @@ app.MapGet("/api/getAllCities",()=>{
 
 //Get all Walkers by CityId
 app.MapGet("/api/getWalkersByCityId/{id}",(int id)=>{
-    List<WalkerDTO> walkerDTOs=walkerCities.Where(wc=>wc.CityId==id).Select(wc=>new WalkerDTO{
-        Id=wc.WalkerId,       
-        Name=walkers.FirstOrDefault(w=>w.Id==wc.WalkerId).Name,
-        Email=walkers.FirstOrDefault(w=>w.Id==wc.WalkerId).Email       
-        }).ToList();
+  
+//     List<WalkerDTO> walkerDTOs=walkerCities.Where(wc=>wc.CityId==id)==null?null:walkerCities.Where(wc=>wc.CityId==id).Select(wc=>new WalkerDTO{
+//         Id=wc.WalkerId,       
+//         Name=walkers.FirstOrDefault(w=>w.Id==wc.WalkerId).Name,
+//         Email=walkers.FirstOrDefault(w=>w.Id==wc.WalkerId).Email       
+//         }).ToList();
 
-    return walkerDTOs;
+//    return walkerDTOs;
+
+List<WalkerDTO> walkerDTOs = null;
+
+if (walkerCities != null && walkerCities.Any())
+{  
+    var filteredWalkerCities = walkerCities.Where(wc => wc.CityId == id);
+
+    if (filteredWalkerCities != null && filteredWalkerCities.Any())
+    {       
+        walkerDTOs = filteredWalkerCities.Select(wc => new WalkerDTO
+        {
+            Id = wc.WalkerId,
+            Name = walkers.FirstOrDefault(w => w.Id == wc.WalkerId)?.Name,
+            Email = walkers.FirstOrDefault(w => w.Id == wc.WalkerId)?.Email
+        }).ToList();
+    }
+}
+
+return walkerDTOs;
+  
+});
+
+//Get all dogs by Walker's city and walker not assigned
+app.MapGet("/api/getAllDogsInWalkersCity/{walkerId}",(int walkerId)=>{
+List<Dog> availableDogs = null;
+
+if (walkerCities.Count>0)
+{  
+    List<Dog> filterDog = dogs.Where(wc => wc.WalkerId == walkerId).ToList();
+ 
+    if (filterDog.Count>0)
+    {    
+        availableDogs = dogs
+                    .Where(dog => filterDog.Any(d => d.CityId == dog.CityId && dog.WalkerId != walkerId)).ToList();
+    }
+}
+    return availableDogs;
+});
+
+//assign walker to a dog
+app.MapPut("/api/assignWalkerToADog/{walkerId}",(int walkerId,Dog dogObj)=>{
+    if(string.IsNullOrEmpty(dogObj.Name))
+    {
+        return Results.BadRequest();
+    }
+    Dog dog=dogs.FirstOrDefault(d=>d.Id==dogObj.Id);
+    dog.WalkerId=walkerId;
+
+    return Results.NoContent();
 });
 
 

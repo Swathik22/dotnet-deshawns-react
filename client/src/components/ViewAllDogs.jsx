@@ -11,7 +11,7 @@ export const ViewAllDogs=()=>{
             }
             )
         }      
-    ,[])
+    ,[allDogsList])
 
     const handleNavigateToAddDog=()=>{
         navigate("/addDog")
@@ -25,7 +25,9 @@ export const ViewAllDogs=()=>{
             {
             allDogsList.map(dog=>{                   
                 return (
+                    <div>
                         <div key={dog.id}><Link to={`/${dog.id}`}>{dog.name}</Link></div>
+                        </div>
                       )             
             }
                 
