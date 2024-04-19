@@ -52,8 +52,8 @@ export const ViewAllWalkers=()=>{
             filterWalkers.map((walker)=>{
                 return (
                 <div key={walker.id}>
-                    <div>{walker.name}</div>
-                    <div><Link to={`/walkers/${walker.id}`}>Assign Dog</Link></div>    
+                    <div><Link to={`/updateWalker/${walker.id}`} style={{marginRight: '25px'}}>{walker.name}</Link>     <Link to={`/walkers/${walker.id}`}>Assign Dog</Link>  </div>
+                 
                 </div>
                 )
             })
