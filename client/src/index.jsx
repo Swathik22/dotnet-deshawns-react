@@ -11,6 +11,7 @@ import { AddDog } from "./components/AddDog";
 import { ViewAllWalkers } from "./components/ViewAllwalkers";
 import { AssignDogToWalker } from "./components/AssignDogToWalker";
 import { AddCity } from "./components/AddCity";
+import { UpdateWalker } from "./components/UpdateWalker";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -32,9 +33,10 @@ root.render(
       <Route path="walkers" element={<ViewAllWalkers/>}/>
       <Route path="walkers/:walkerId" element={<AssignDogToWalker/>}/>
       <Route path="city" element={<AddCity/>}/>
+      <Route path="updateWalker/:walkerId" element={<UpdateWalker/>}/>
     </Route>
     </Routes>
-  </BrowserRouter>,
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

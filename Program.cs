@@ -215,5 +215,43 @@ app.MapPost("/api/city",(City cityObj)=>{
     });
 });
 
+//get all the cities for the Walker
+app.MapGet("/api/walkersCities/{walkerId}",(int walkerId)=>{
+    //all cities of walker walking
+    List<WalkerCity> walkersCityList=walkerCities.Where(wc=>wc.WalkerId==walkerId).ToList();
+    List<CityDTO> cityList=null;
+    if(walkersCityList.Count>0)
+    {
+        cityList=walkersCityList.Select(wcList=>new CityDTO
+        {
+            Id=cities.FirstOrDefault(c=>c.Id==wcList.CityId).Id,
+            Name=cities.FirstOrDefault(c=>c.Id==wcList.CityId).Name,
+        }).ToList();    
+    }
+
+    WalkerDTO walkerDetails=new WalkerDTO{
+        Id=walkerId,
+        Name=walkers.FirstOrDefault(w=>w.Id==walkerId).Name,
+        CityList=cityList
+    };
+    
+    return walkerDetails;
+});
+
+app.MapPut("/api/walkerCityUpdate/",(Walker walkerObj)=>{
+    walkerCities =  walkerCities.Where(wc => wc.WalkerId != walkerObj.Id).ToList();
+
+    foreach (City city in walkerObj.CityList)
+    {
+        WalkerCity newWC = new WalkerCity
+        {
+            WalkerId = walkerObj.Id,
+            CityId = city.Id
+        };
+        newWC.Id = walkerCities.Count > 0 ? walkerCities.Max(wc => wc.Id) + 1 : 1;
+        walkerCities.Add(newWC);    
+    }
+    return Results.NoContent();
+});
 
 app.Run();
