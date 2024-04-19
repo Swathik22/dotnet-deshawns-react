@@ -204,5 +204,16 @@ app.MapPut("/api/assignWalkerToADog/{walkerId}",(int walkerId,Dog dogObj)=>{
     return Results.NoContent();
 });
 
+//Add new City
+app.MapPost("/api/city",(City cityObj)=>{
+    cityObj.Id=cities.Max(c=>c.Id)+1;
+    cities.Add(cityObj);
+
+    return Results.Created("$/city",new CityDTO{
+        Id=cityObj.Id,
+        Name=cityObj.Name
+    });
+});
+
 
 app.Run();

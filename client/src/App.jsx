@@ -11,8 +11,11 @@ function App() {
         <Navbar color="light" expand="md">
           <Nav navbar>
             <NavbarBrand href="/">🐕‍🦺 🐩 DeShawn's Dog Walking</NavbarBrand>
-            <NavItem>
+            <NavItem>              
               <NavLink href="/walkers">Walkers</NavLink>
+            </NavItem>
+            <NavItem> 
+              <NavLink href="/city">Cities</NavLink>
             </NavItem>
           </Nav>
         </Navbar>

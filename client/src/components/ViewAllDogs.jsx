@@ -11,7 +11,7 @@ export const ViewAllDogs=()=>{
             }
             )
         }      
-    ,[allDogsList])
+    ,[])
 
     const handleNavigateToAddDog=()=>{
         navigate("/addDog")
