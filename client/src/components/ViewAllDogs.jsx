@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react"
-import { getAllDogs } from "../services/DogService"
+import { deleteDog, getAllDogs } from "../services/DogService"
 import { Link, useNavigate } from "react-router-dom"
 
 export const ViewAllDogs=()=>{
@@ -16,6 +16,14 @@ export const ViewAllDogs=()=>{
     const handleNavigateToAddDog=()=>{
         navigate("/addDog")
     }
+
+    const handleRemoveDog=(dogId)=>{
+        deleteDog(dogId).then(
+            navigate("/")
+      
+    )
+    }
+
     return <>
     <h4>View All Dogs</h4>
     <div>   
@@ -26,7 +34,7 @@ export const ViewAllDogs=()=>{
             allDogsList.map(dog=>{                   
                 return (
                     <div>
-                        <div key={dog.id}><Link to={`/${dog.id}`}>{dog.name}</Link></div>
+                        <div key={dog.id}><Link to={`/${dog.id}`} style={{marginRight: '25px'}}>{dog.name}</Link><button onClick={() => handleRemoveDog(dog.id)}>Remove</button></div>
                         </div>
                       )             
             }
