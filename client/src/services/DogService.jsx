@@ -30,3 +30,7 @@ export const updateWalkerToADog=async(walkerId,dogObj)=>{
         body:JSON.stringify(dogObj)
     }).then(res=>res.json())
 }
+
+export const deleteDog=async(dogId)=>{
+    return await fetch(`/api/deleteDog/${dogId}`,{method:"DELETE"}).then(res=>res.json())
+}

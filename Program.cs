@@ -254,4 +254,19 @@ app.MapPut("/api/walkerCityUpdate/",(Walker walkerObj)=>{
     return Results.NoContent();
 });
 
+app.MapDelete("/api/deleteDog/{dogId}",(int dogId)=>
+{    
+    Dog dog=dogs.FirstOrDefault(d=>d.Id==dogId);
+    if(dog!=null)
+    {
+        dogs.Remove(dog);
+    }  
+    else
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok();
+});
+
 app.Run();
