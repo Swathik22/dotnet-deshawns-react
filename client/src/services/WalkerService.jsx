@@ -20,3 +20,7 @@ export const updateCitiesForWalker=async(cityObj)=>
         body:JSON.stringify(cityObj)
     }).then(res=>res.json())
 }
+
+export const deleteWalker=async(walkerId)=>{
+    return await fetch(`/api/deleteWalker/${walkerId}`,{method:"DELETE"}).then(res=>res.json())
+}

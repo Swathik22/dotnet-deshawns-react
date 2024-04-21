@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getAllWalkers, getWalkersByCityId } from "../services/WalkerService"
+import { deleteWalker, getAllWalkers, getWalkersByCityId } from "../services/WalkerService"
 import { getAllCities } from "../services/CityService"
 import { Link } from "react-router-dom"
 
@@ -32,9 +32,11 @@ export const ViewAllWalkers=()=>{
                 setFilterWalkers(data)
             })
         }
-            
-        }
-        
+        }   
+    }
+
+    const removeWalker=(walkerId)=>{
+        deleteWalker(walkerId).then()
     }
 
     return <>
@@ -52,7 +54,9 @@ export const ViewAllWalkers=()=>{
             filterWalkers.map((walker)=>{
                 return (
                 <div key={walker.id}>
-                    <div><Link to={`/updateWalker/${walker.id}`} style={{marginRight: '25px'}}>{walker.name}</Link>     <Link to={`/walkers/${walker.id}`}>Assign Dog</Link>  </div>
+                    <div><Link to={`/updateWalker/${walker.id}`} style={{marginRight: '25px'}}>{walker.name}</Link>    
+                     <Link to={`/walkers/${walker.id}`} style={{marginRight: '25px'}}>Assign Dog</Link> 
+                     <button onClick={()=>removeWalker(walker.id)}>Remove</button> </div>
                  
                 </div>
                 )
