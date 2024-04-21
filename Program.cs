@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using DOTNET_DESHAWNS_REACT.Models;
 using DOTNET_DESHAWNS_REACT.Models.DTOs;
+using Microsoft.AspNetCore.HttpLogging;
 
 List<Dog> dogs = new List<Dog>
 {
@@ -267,6 +268,17 @@ app.MapDelete("/api/deleteDog/{dogId}",(int dogId)=>
     }
 
     return Results.Ok();
+});
+
+app.MapDelete("/api/deleteWalker/{walkerId}",(int walkerID)=>{
+    walkerCities=walkerCities.Where(wc=>wc.WalkerId!=walkerID).ToList();
+
+    walkers=walkers.Where(w=>w.Id!=walkerID).ToList();
+
+    dogs.Where(d=>d.WalkerId==walkerID).ToList().ForEach(dl => dl.WalkerId = 0);
+
+    return Results.Ok();
+
 });
 
 app.Run();
